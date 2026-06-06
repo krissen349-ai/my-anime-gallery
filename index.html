@@ -11,7 +11,7 @@
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 10px; /* Mobile ke liye padding kam ki */
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -20,11 +20,11 @@
         h1 {
             color: #ffdd40;
             margin-bottom: 20px;
-            font-size: 1.8rem; /* Mobile par heading auto-adjust hogi */
+            font-size: 1.8rem;
             text-align: center;
         }
 
-        /* Main Video Player (Mobile aur Desktop dono ke liye responsive) */
+        /* Responsive Main Video Wrapper */
         .main-video-wrapper {
             width: 100%;
             max-width: 800px;
@@ -37,10 +37,23 @@
             border: 2px solid #ffdd40;
         }
 
-        .main-video-wrapper video {
+        /* Iframe player container for perfect 16:9 aspect ratio */
+        .video-container {
+            position: relative;
             width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
             border-radius: 8px;
-            outline: none;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .main-video-wrapper h2 {
@@ -60,14 +73,14 @@
             max-width: 1200px;
         }
 
-        /* Chhote Episode Cards - Mobile responsive size */
+        /* Chhote Episode Cards */
         .episode-card {
             background-color: #212121;
             border-radius: 8px;
             padding: 10px;
-            width: 45%; /* Mobile screen par ek line mein 2 cards aayenge */
-            min-width: 140px; /* Bohot zyada chhota na ho */
-            max-width: 220px; /* Desktop par size control mein rahe */
+            width: 45%;
+            min-width: 140px;
+            max-width: 220px;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.2s;
             border: 2px solid transparent;
@@ -86,7 +99,7 @@
 
         .thumbnail-box {
             width: 100%;
-            height: 90px; /* Mobile ke liye height thodi kam ki */
+            height: 90px;
             background-color: #3a3a3a;
             border-radius: 6px;
             display: flex;
@@ -104,7 +117,7 @@
             color: #ececec;
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Bada naam hone par dot dot (...) aa jayega */
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -113,29 +126,29 @@
     <h1>My Anime Collection</h1>
 
     <div class="main-video-wrapper">
-        <video id="main-player" src="https://docs.google.com/uc?export=download&id=1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c" controls autoplay muted playsinline>
-            Your browser does not support the video tag.
-        </video>
+        <div class="video-container">
+            <iframe id="main-player" src="https://drive.google.com/file/d/1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c/preview" allow="autoplay"></iframe>
+        </div>
         <h2 id="main-video-title">Horimiya - Episode 1</h2>
     </div>
 
     <div class="episodes-container">
-        <div class="episode-card active" data-video="https://docs.google.com/uc?export=download&id=1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c" data-title="Horimiya - Episode 1" onclick="changeVideo(this)">
+        <div class="episode-card active" data-video="https://drive.google.com/file/d/1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c/preview" data-title="Horimiya - Episode 1" onclick="changeVideo(this)">
             <div class="thumbnail-box">▶ Ep 1</div>
             <h4>Horimiya - Episode 1</h4>
         </div>
 
-        <div class="episode-card" data-video="https://docs.google.com/uc?export=download&id=1I9GBNC5QTKguHSTt-HVXozq1zZdVKpmS" data-title="Horimiya - Episode 2" onclick="changeVideo(this)">
+        <div class="episode-card" data-video="https://drive.google.com/file/d/1I9GBNC5QTKguHSTt-HVXozq1zZdVKpmS/preview" data-title="Horimiya - Episode 2" onclick="changeVideo(this)">
             <div class="thumbnail-box">▶ Ep 2</div>
             <h4>Horimiya - Episode 2</h4>
         </div>
         
-        <div class="episode-card" data-video="https://docs.google.com/uc?export=download&id=12WTV78cD6YGw-esq67gRhpJdKh7N8bKz" data-title="Horimiya - Episode 3" onclick="changeVideo(this)">
+        <div class="episode-card" data-video="https://drive.google.com/file/d/12WTV78cD6YGw-esq67gRhpJdKh7N8bKz/preview" data-title="Horimiya - Episode 3" onclick="changeVideo(this)">
             <div class="thumbnail-box">▶ Ep 3</div>
             <h4>Horimiya - Episode 3</h4>
         </div>
 
-        <div class="episode-card" data-video="https://docs.google.com/uc?export=download&id=1QqL_U_AETu-pMGXW9jp6Tf2vehwEUb2w" data-title="Horimiya - Episode 4" onclick="changeVideo(this)">
+        <div class="episode-card" data-video="https://drive.google.com/file/d/1QqL_U_AETu-pMGXW9jp6Tf2vehwEUb2w/preview" data-title="Horimiya - Episode 4" onclick="changeVideo(this)">
             <div class="thumbnail-box">▶ Ep 4</div>
             <h4>Horimiya - Episode 4</h4>
         </div>
@@ -155,9 +168,6 @@
 
         allCards.forEach(card => card.classList.remove('active'));
         cardElement.classList.add('active');
-
-        mainPlayer.muted = false; // Click karte hi video unmute ho jayega
-        mainPlayer.play(); // Aur automatic chalna shuru ho jayega
     }
 </script>
 
