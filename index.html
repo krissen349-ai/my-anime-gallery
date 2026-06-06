@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Anime Gallery - Inside Page Player</title>
+    <title>My Anime Gallery - Mobile Controls Fix</title>
     
     <style>
         body {
@@ -25,24 +25,24 @@
             text-align: center;
         }
 
-        /* Main Video Player Box */
+        /* Main Video Player Wrapper */
         .main-video-wrapper {
             width: 100%;
             max-width: 800px;
             box-sizing: border-box;
             background-color: #1a1a1a;
             border-radius: 12px;
-            padding: 8px;
+            padding: 6px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
             margin-bottom: 20px;
             border: 2px solid #ffdd40;
         }
 
-        /* 16:9 Aspect Ratio Container taaki player ka size mobile par ajeeb na lage */
+        /* CSS Fix for Mobile: Google Drive player controls alignment */
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; 
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             border-radius: 8px;
             overflow: hidden;
@@ -56,6 +56,8 @@
             width: 100%;
             height: 100%;
             border: none;
+            /* Mobile par controls chhupe nahi, isliye standard formatting */
+            overflow: hidden;
         }
 
         .main-video-wrapper h2 {
@@ -65,7 +67,7 @@
             padding: 0 5px;
         }
 
-        /* Episodes List Container */
+        /* Episodes Container */
         .episodes-container {
             display: flex;
             flex-direction: row;
@@ -167,7 +169,6 @@
         const newVideoSrc = cardElement.getAttribute('data-video');
         const newVideoTitle = cardElement.getAttribute('data-title');
 
-        // Yeh usi page ke iframe player ka source badlega bina naya tab khole!
         mainPlayer.src = newVideoSrc;
         mainTitle.innerText = newVideoTitle;
 
