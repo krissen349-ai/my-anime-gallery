@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Anime Gallery - Mobile Responsive</title>
+    <title>My Anime Gallery - Inside Page Player</title>
     
     <style>
         body {
@@ -20,30 +20,52 @@
 
         h1 {
             color: #ffdd40;
-            margin: 20px 0;
-            font-size: 1.8rem;
+            margin: 15px 0;
+            font-size: 1.6rem;
             text-align: center;
         }
 
-        .welcome-box {
+        /* Main Video Player Box */
+        .main-video-wrapper {
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
+            box-sizing: border-box;
             background-color: #1a1a1a;
             border-radius: 12px;
-            padding: 15px;
-            text-align: center;
+            padding: 8px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 2px solid #ffdd40;
         }
 
-        .welcome-box p {
-            margin: 0;
-            font-size: 14px;
-            color: #cccccc;
+        /* 16:9 Aspect Ratio Container taaki player ka size mobile par ajeeb na lage */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
         }
 
-        /* Episodes Container */
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .main-video-wrapper h2 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+            padding: 0 5px;
+        }
+
+        /* Episodes List Container */
         .episodes-container {
             display: flex;
             flex-direction: row;
@@ -55,19 +77,18 @@
             padding-bottom: 20px;
         }
 
-        /* Chhote Episode Cards */
+        /* Episode Cards */
         .episode-card {
             background-color: #212121;
             border-radius: 8px;
-            padding: 10px;
-            width: 46%; /* Mobile side-by-side perfect arrangement */
+            padding: 8px;
+            width: 46%; 
             min-width: 140px;
             max-width: 220px;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.2s;
             border: 2px solid transparent;
             box-sizing: border-box;
-            text-align: center;
         }
 
         .episode-card:hover {
@@ -75,24 +96,28 @@
             background-color: #303030;
         }
 
+        .episode-card.active {
+            border-color: #ffdd40;
+            background-color: #2b2b2b;
+        }
+
         .thumbnail-box {
             width: 100%;
-            height: 90px;
-            background-color: #ffdd40;
-            color: #0f0f0f;
+            height: 85px;
+            background-color: #3a3a3a;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 6px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(255, 221, 64, 0.2);
         }
 
         .episode-card h4 {
-            margin: 5px 0 0 0;
-            font-size: 13px;
+            margin: 0;
+            font-size: 12px;
             color: #ececec;
             white-space: nowrap;
             overflow: hidden;
@@ -104,36 +129,50 @@
 
     <h1>My Anime Collection</h1>
 
-    <div class="welcome-box">
-        <p>👇 Neeche kisi bhi Episode par click karein, video turant player mein chalne lagega!</p>
+    <div class="main-video-wrapper">
+        <div class="video-container">
+            <iframe id="main-player" src="https://drive.google.com/file/d/1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c/preview" allow="autoplay" allowfullscreen></iframe>
+        </div>
+        <h2 id="main-video-title">Horimiya - Episode 1</h2>
     </div>
 
     <div class="episodes-container">
-        <div class="episode-card" onclick="playVideo('https://drive.google.com/file/d/1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c/view?usp=sharing')">
-            <div class="thumbnail-box">▶</div>
-            <h4>Horimiya - Ep 1</h4>
+        <div class="episode-card active" data-video="https://drive.google.com/file/d/1Y3uSM0xDqecKGupZKlBG_A0PqO39-18c/preview" data-title="Horimiya - Episode 1" onclick="changeVideo(this)">
+            <div class="thumbnail-box">▶ Ep 1</div>
+            <h4>Horimiya - Episode 1</h4>
         </div>
 
-        <div class="episode-card" onclick="playVideo('https://drive.google.com/file/d/1I9GBNC5QTKguHSTt-HVXozq1zZdVKpmS/view?usp=sharing')">
-            <div class="thumbnail-box">▶</div>
-            <h4>Horimiya - Ep 2</h4>
+        <div class="episode-card" data-video="https://drive.google.com/file/d/1I9GBNC5QTKguHSTt-HVXozq1zZdVKpmS/preview" data-title="Horimiya - Episode 2" onclick="changeVideo(this)">
+            <div class="thumbnail-box">▶ Ep 2</div>
+            <h4>Horimiya - Episode 2</h4>
         </div>
         
-        <div class="episode-card" onclick="playVideo('https://drive.google.com/file/d/12WTV78cD6YGw-esq67gRhpJdKh7N8bKz/view?usp=sharing')">
-            <div class="thumbnail-box">▶</div>
-            <h4>Horimiya - Ep 3</h4>
+        <div class="episode-card" data-video="https://drive.google.com/file/d/12WTV78cD6YGw-esq67gRhpJdKh7N8bKz/preview" data-title="Horimiya - Episode 3" onclick="changeVideo(this)">
+            <div class="thumbnail-box">▶ Ep 3</div>
+            <h4>Horimiya - Episode 3</h4>
         </div>
 
-        <div class="episode-card" onclick="playVideo('https://drive.google.com/file/d/1QqL_U_AETu-pMGXW9jp6Tf2vehwEUb2w/view?usp=sharing')">
-            <div class="thumbnail-box">▶</div>
-            <h4>Horimiya - Ep 4</h4>
+        <div class="episode-card" data-video="https://drive.google.com/file/d/1QqL_U_AETu-pMGXW9jp6Tf2vehwEUb2w/preview" data-title="Horimiya - Episode 4" onclick="changeVideo(this)">
+            <div class="thumbnail-box">▶ Ep 4</div>
+            <h4>Horimiya - Episode 4</h4>
         </div>
     </div>
 
 <script>
-    function playVideo(videoUrl) {
-        // Yeh line mobile browser ko direct Google Drive player par redirect karegi jahan 100% makkhan chalega
-        window.open(videoUrl, '_blank');
+    const mainPlayer = document.getElementById('main-player');
+    const mainTitle = document.getElementById('main-video-title');
+    const allCards = document.querySelectorAll('.episode-card');
+
+    function changeVideo(cardElement) {
+        const newVideoSrc = cardElement.getAttribute('data-video');
+        const newVideoTitle = cardElement.getAttribute('data-title');
+
+        // Yeh usi page ke iframe player ka source badlega bina naya tab khole!
+        mainPlayer.src = newVideoSrc;
+        mainTitle.innerText = newVideoTitle;
+
+        allCards.forEach(card => card.classList.remove('active'));
+        cardElement.classList.add('active');
     }
 </script>
 
